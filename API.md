@@ -44,6 +44,7 @@ Possible errors:
 - URL: `/api/v1/user/register`
 - Description: creates a new user in the database.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `firstName` | `string` | **Required**. User's first name |
@@ -93,6 +94,7 @@ Possible errors:
 - URL: `/api/v1/user/{id}`
 - Description: updates a user in the database.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `firstName` | `string` | User's first name |
@@ -168,6 +170,7 @@ Possible errors:
 - URL: `/api/v1/appointment/create`
 - Description: creates a new appointment in the database.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `start` | `datetime` | **Required**. Appointment start time and date |
@@ -286,6 +289,7 @@ Possible errors:
 - URL: `/api/v1/appointment/{id}`
 - Description: updates an new appointment in the database.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `start` | `datetime` | Appointment start time and date |
@@ -356,6 +360,7 @@ Possible errors:
 - URL: `/api/v1/booking/create`
 - Description: creates a new booking for an appointment.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `appointmentId` | `UUID` | **Required**. Appointment id |
@@ -430,6 +435,7 @@ Possible errors:
 - URL: `/api/v1/booking/{id}`
 - Description: updates a booking entry in the database.
 - Parameters:
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `description` | `string` | Description and comments from the user |
