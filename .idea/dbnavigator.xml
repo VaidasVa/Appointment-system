@@ -20,16 +20,11 @@
     <retain-sticky-names value="false" />
   </component>
   <component name="DBNavigator.Project.FileConnectionMappingManager">
-    <mapping file-url="file://$PROJECT_DIR$/booking-service/src/main/resources/db/migration/V1__create_bookings_table.sql" connection-id="a4a57ec7-1199-49ef-9e88-46be8f70688d" session-id="MAIN" current-schema="appointment" />
+    <mapping file-url="file://$PROJECT_DIR$/booking-service/src/main/resources/db/migration/V2__test_data.sql" connection-id="a4a57ec7-1199-49ef-9e88-46be8f70688d" session-id="MAIN" current-schema="appointment" />
   </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
-  </component>
-  <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">
-    <recently-used-interfaces>
-      <mapping database-type="MYSQL" interface-id="DEFAULT" />
-    </recently-used-interfaces>
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
