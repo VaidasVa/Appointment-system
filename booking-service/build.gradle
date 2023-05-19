@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.6'
     id 'io.spring.dependency-management' version '1.1.0'
+    id "org.flywaydb.flyway" version "9.8.1"
 }
 
 group = 'acn.intern'
@@ -20,29 +21,40 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf:3.0.2'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '3.0.2'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.6'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: '3.0.6'
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
     implementation group: 'jakarta.validation', name: 'jakarta.validation-api', version: '3.0.2'
 
-    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
-
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '3.0.6'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '3.0.6'
+    compileOnly "org.flywaydb:flyway-core:9.18.0"
+    compileOnly 'org.flywaydb:flyway-mysql'
+//    compile "org.flywaydb:flyway-sqlserver"
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.18.0'
+//    flywayMigration("mysql:mysql-connector-java:8.0.27")
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.3.1'
-
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+
+flyway {
+    url = 'jdbc:mysql://localhost:3306/appointment'
+    user = 'root'
+    password = 'Menulis.SQL.1'
 }
