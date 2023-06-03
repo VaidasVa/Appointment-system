@@ -29,7 +29,8 @@ public class BookingDAO {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "appointment_id")
+    @JdbcTypeCode(SqlTypes.CHAR)
+    @Column(name = "appointment_id", length = 36, columnDefinition = "varchar(36)")
     private String appointmentId;
 
     @JdbcTypeCode(SqlTypes.CHAR)
