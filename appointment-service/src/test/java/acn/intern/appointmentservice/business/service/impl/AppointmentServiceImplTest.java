@@ -3,8 +3,16 @@ package acn.intern.appointmentservice.business.service.impl;
 import acn.intern.appointmentservice.business.mappers.AppointmentMapper;
 import acn.intern.appointmentservice.business.repository.AppointmentRepository;
 import acn.intern.appointmentservice.business.repository.impl.AppointmentDAO;
+import acn.intern.appointmentservice.business.repository.impl.BuildingDAO;
+import acn.intern.appointmentservice.business.repository.impl.RoomDAO;
+import acn.intern.appointmentservice.business.repository.impl.SpecialistDAO;
+import acn.intern.appointmentservice.business.repository.impl.SpecialityDAO;
 import acn.intern.appointmentservice.model.Appointment;
 
+import acn.intern.appointmentservice.model.Building;
+import acn.intern.appointmentservice.model.Room;
+import acn.intern.appointmentservice.model.Specialist;
+import acn.intern.appointmentservice.model.Speciality;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -86,7 +94,8 @@ class AppointmentServiceImplTest {
         when(mapper.appointmentToAppointmentDAO(appointment)).thenReturn(appointmentDAO);
         when(mapper.appointmentDAOToAppointment(appointmentDAO)).thenReturn(appointment);
 
-        assertEquals(appointment, service.updateAppointment(UUID.fromString("c700f297-5db1-4a03-a4f0-e9e174510696"), appointment));
+        assertEquals(appointment,
+                service.updateAppointment(UUID.fromString("c700f297-5db1-4a03-a4f0-e9e174510696"), appointment));
         verify(repository, times(1)).save(any());
     }
 
@@ -100,8 +109,25 @@ class AppointmentServiceImplTest {
         return Appointment.builder().id(UUID.fromString("c700f297-5db1-4a03-a4f0-e9e174510696"))
                                     .start("2023-01-01 14:00:00")
                                     .end("2023-01-01 15:00:00")
-                                    .specialistId(UUID.fromString("d6326e2f-067f-4d61-b6d0-14e9278172f8"))
-                                    .roomId(123)
+                                    .specialist(Specialist.builder()
+                                            .id(UUID.fromString("5d8bc9bc-bbb9-48f1-8616-258059bf71ec"))
+                                            .userId(UUID.fromString("1e5cf2f4-110f-4d59-9af5-0974afcd3b26"))
+                                            .speciality(Speciality.builder()
+                                                    .id(1)
+                                                    .name("Family doctor")
+                                                    .build())
+                                            .build())
+                                    .room(Room.builder()
+                                            .id(1)
+                                            .name("Exam Room 1")
+                                            .building(Building.builder()
+                                                    .id(1)
+                                                    .name("Building One")
+                                                    .address("Broad st. 3")
+                                                    .city("Vilnius")
+                                                    .postCode("000123")
+                                                    .build())
+                                            .build())
                                     .price(15.00)
                                     .build();
     }
@@ -110,9 +136,26 @@ class AppointmentServiceImplTest {
         return AppointmentDAO.builder().id(UUID.fromString("c700f297-5db1-4a03-a4f0-e9e174510696"))
                                         .start(LocalDateTime.of(2023, 1, 1, 14, 0, 0))
                                         .end(LocalDateTime.of(2023, 1, 1, 14, 0, 0))
-                                        .specialistId(UUID.fromString("d6326e2f-067f-4d61-b6d0-14e9278172f8"))
-                                        .roomId(123)
-                                        .price(15.00)
-                                        .build();
+                .specialist(SpecialistDAO.builder()
+                        .id(UUID.fromString("5d8bc9bc-bbb9-48f1-8616-258059bf71ec"))
+                        .userId(UUID.fromString("1e5cf2f4-110f-4d59-9af5-0974afcd3b26"))
+                        .speciality(SpecialityDAO.builder()
+                                .id(1)
+                                .name("Family doctor")
+                                .build())
+                        .build())
+                .room(RoomDAO.builder()
+                        .id(1)
+                        .name("Exam Room 1")
+                        .building(BuildingDAO.builder()
+                                .id(1)
+                                .name("Room One")
+                                .address("Broad st. 3")
+                                .city("Vilnius")
+                                .postCode("000123")
+                                .build())
+                                .build())
+                .price(15.00)
+                .build();
     }
 }

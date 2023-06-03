@@ -13,23 +13,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Appointment {
-
+public class Specialist {
     @Id
     private UUID id;
 
     @NotNull
-    private String start;
+    private UUID userId;
 
     @NotNull
-    private String end;
-
-    @NotNull
-    private Specialist specialist;
-
-    @NotNull
-    private Room room;
-
-    @NotNull
-    private Double price;
+    private Speciality speciality;
 }

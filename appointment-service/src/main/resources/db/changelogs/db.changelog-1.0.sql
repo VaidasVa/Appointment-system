@@ -1,9 +1,121 @@
 --liquibase formatted sql
 
 --changeset salomeja:1
-DROP TABLE IF EXISTS appointments;
+CREATE TABLE buildings (
+    id int PRIMARY KEY,
+    name varchar(50) NOT NULL,
+    city varchar(20) NOT NULL,
+    post_code varchar(10) NOT NULL,
+    address varchar(50) NOT NULL
+);
 
 --changeset salomeja:2
+INSERT INTO buildings (id,
+                       name,
+                       city,
+                       post_code,
+                       address)
+VALUES (101,
+        'Office One',
+        'Vilnius',
+        '120000',
+        'Gedimino pr. 13'),
+        (102,
+        'Office Two',
+        'Kaunas',
+        '238500',
+        'Laisves al. 26A'),
+        (103,
+        'Office Three',
+        'Riga',
+        '010010',
+        'Alberta lela 36');
+
+----changeset salomeja:3
+CREATE TABLE rooms (
+    id int PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    building_id int NOT NULL
+);
+
+----changeset salomeja:4
+INSERT INTO rooms      (id,
+                       name,
+                       building_id)
+VALUES (101,
+        'Procedure Room 1',
+        101),
+        (102,
+        'Exam Room 1',
+        101),
+        (103,
+        'Exam Room 2',
+        101),
+        (104,
+        'Procedure Room 1',
+        102),
+        (105,
+        'Exam Room 1',
+        102),
+        (106,
+        'Exam Room 2',
+        102),
+        (107,
+        'Procedure Room 1',
+        103),
+        (108,
+        'Exam Room 1',
+        103),
+        (109,
+        'Exam Room 2',
+        103);
+
+----changeset salomeja:5
+CREATE TABLE specialities (
+    id int PRIMARY KEY,
+    name varchar(255) NOT NULL
+);
+
+----changeset salomeja:6
+INSERT INTO specialities (id,
+                         name)
+VALUES (101,
+        'Family doctor'),
+        (102,
+        'Physiotherapist'),
+        (103,
+        'Dentist'),
+        (104,
+        'Psychologist');
+
+----changeset salomeja:7
+CREATE TABLE specialists (
+    id varchar(36) PRIMARY KEY,
+    user_id varchar(36) NOT NULL,
+    speciality_id int NOT NULL
+);
+
+----changeset salomeja:8
+INSERT INTO specialists (id,
+                         user_id,
+                         speciality_id)
+VALUES ('8cfea70a-00c3-11ee-be56-0242ac120002',
+        '12010a25-cc72-44a4-bf1a-87eb23a5ccff',
+        101),
+        ('0cd0fbec-62c7-427d-90a8-1ef685ae099d',
+        '67701079-d873-4773-a5a3-d3d23885949e',
+        101),
+        ('a62b9d2c-aa51-4b51-85b7-ee0ed6478621',
+        '178516a7-b66e-4a48-b82d-b78937aacefb',
+        102),
+        ('4c76aad3-7bef-496e-9b4b-6d7a05208079',
+        '285b0b7b-5dbc-4da5-b27e-8d5f9381f130',
+        103),
+        ('4de0e3a6-0045-43b9-8a16-4d49b7df92cc',
+        'ff3a2014-b399-41f8-808f-fa2163e14f6b',
+        104);
+
+--changeset salomeja:9
 CREATE TABLE appointments (
     id varchar(36) PRIMARY KEY,
     start datetime NOT NULL,
@@ -13,54 +125,40 @@ CREATE TABLE appointments (
     price double NOT NULL
 );
 
---changeset salomeja:3
+--changeset salomeja:10
 INSERT INTO appointments (id,
                           start,
                           end,
                           specialist_id,
                           room_id,
                           price)
-VALUES ('d6326e2f-067f-4d61-b6d0-14e9278172f8',
-        '2023-02-01 09:00:00',
-        '2023-02-01 09:30:00',
-        '167ccdb2-f594-11ed-b67e-0242ac120002',
-        125,
-        65.00);
-
---changeset salomeja:4
-INSERT INTO appointments (id,
-                          start,
-                          end,
-                          specialist_id,
-                          room_id,
-                          price)
-VALUES ('4cc717a6-61bb-4e57-8169-137245f95c15',
+VALUES ('39979895-4e1e-48ae-a036-3378d95671e4',
         '2023-02-01 11:00:00',
         '2023-02-01 12:00:00',
-        '3f06d610-45f6-4d51-86ac-6da5bf2331c4',
-        2,
+        '8cfea70a-00c3-11ee-be56-0242ac120002',
+        101,
         85.00),
-        ('c85e0321-2144-423c-a8d4-20836af70472',
+        ('422fd150-b9a6-41b3-9658-687236c0996d',
         '2023-02-01 09:00:00',
         '2023-02-01 09:30:00',
-        '6ef10c42-29ac-4b9a-9c4e-47cf27e18941',
-        3,
+        '0cd0fbec-62c7-427d-90a8-1ef685ae099d',
+        102,
         65.00),
-        ('1223c4bd-db11-41e1-bcaa-7dc14dcbfdb0',
+        ('06668e80-fca2-498d-9160-deba24fd6ff0',
         '2023-02-01 09:00:00',
         '2023-02-01 09:30:00',
-        'd7f3cf90-612c-4a92-9416-360b5796b2d7',
-        2,
+        'a62b9d2c-aa51-4b51-85b7-ee0ed6478621',
+        103,
         65.00),
-        ('9c463185-ffde-435f-a957-bc15c492e808',
+        ('6c603514-297c-48d7-b42f-4de55481f123',
         '2023-02-02 09:00:00',
         '2023-02-02 09:30:00',
-        '0feaf25d-1c55-465c-947b-547a2197dfcd',
-        1,
+        '4c76aad3-7bef-496e-9b4b-6d7a05208079',
+        104,
         65.00),
-        ('efa24e13-1d3a-4d9a-b74b-15881c7ff7df',
+        ('475133b3-0d6d-4ebb-8b68-e53cac8e0ae3',
         '2023-02-03 16:00:00',
         '2023-02-03 16:45:00',
-        '1436721a-1868-47dd-b177-344c4ad7b8f0',
-        2,
+        '4de0e3a6-0045-43b9-8a16-4d49b7df92cc',
+        105,
         70.00);

@@ -7,29 +7,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Appointment {
-
+public class Room {
     @Id
-    private UUID id;
+    private Integer id;
 
     @NotNull
-    private String start;
+    private String name;
 
     @NotNull
-    private String end;
-
-    @NotNull
-    private Specialist specialist;
-
-    @NotNull
-    private Room room;
-
-    @NotNull
-    private Double price;
+    private Building building;
 }

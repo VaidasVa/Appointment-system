@@ -3,6 +3,10 @@ package acn.intern.appointmentservice.web.controller;
 import acn.intern.appointmentservice.business.service.AppointmentService;
 import acn.intern.appointmentservice.model.Appointment;
 
+import acn.intern.appointmentservice.model.Building;
+import acn.intern.appointmentservice.model.Room;
+import acn.intern.appointmentservice.model.Specialist;
+import acn.intern.appointmentservice.model.Speciality;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +65,9 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$[0].id", is("c700f297-5db1-4a03-a4f0-e9e174510696")))
                 .andExpect(jsonPath("$[0].start", is("2023-01-01 14:00:00")))
                 .andExpect(jsonPath("$[0].end", is("2023-01-01 15:00:00")))
-                .andExpect(jsonPath("$[0].roomId", is(123)))
+                .andExpect(jsonPath("$[0].room.building.name", is("Building One")))
                 .andExpect(jsonPath("$[0].price", is(15.00)))
-                .andExpect(jsonPath("$[0].specialistId", is("d6326e2f-067f-4d61-b6d0-14e9278172f8")));
+                .andExpect(jsonPath("$[0].specialist.speciality.name", is("Family doctor")));
 
         verify(service, times(1)).getAllAppointments();
     }
@@ -92,9 +96,9 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id", is("c700f297-5db1-4a03-a4f0-e9e174510696")))
                 .andExpect(jsonPath("$.start", is("2023-01-01 14:00:00")))
                 .andExpect(jsonPath("$.end", is("2023-01-01 15:00:00")))
-                .andExpect(jsonPath("$.roomId", is(123)))
+                .andExpect(jsonPath("$.room.building.name", is("Building One")))
                 .andExpect(jsonPath("$.price", is(15.00)))
-                .andExpect(jsonPath("$.specialistId", is("d6326e2f-067f-4d61-b6d0-14e9278172f8")));
+                .andExpect(jsonPath("$.specialist.speciality.name", is("Family doctor")));
         verify(service, times(1)).getAppointmentById(any());
     }
 
@@ -120,9 +124,9 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id", is("c700f297-5db1-4a03-a4f0-e9e174510696")))
                 .andExpect(jsonPath("$.start", is("2023-01-01 14:00:00")))
                 .andExpect(jsonPath("$.end", is("2023-01-01 15:00:00")))
-                .andExpect(jsonPath("$.roomId", is(123)))
+                .andExpect(jsonPath("$.room.building.name", is("Building One")))
                 .andExpect(jsonPath("$.price", is(15.00)))
-                .andExpect(jsonPath("$.specialistId", is("d6326e2f-067f-4d61-b6d0-14e9278172f8")));
+                .andExpect(jsonPath("$.specialist.speciality.name", is("Family doctor")));
 
         verify(service, times(1)).postAppointment(any());
     }
@@ -131,7 +135,7 @@ class AppointmentControllerTest {
     void postAppointmentInvalidInput() throws Exception {
         Appointment appointmentWithoutId = createAppointment();
         appointmentWithoutId.setId(null);
-        appointmentWithoutId.setSpecialistId(null);
+        appointmentWithoutId.setSpecialist(null);
 
         mockMvc.perform(post(URL).contentType(MediaType.APPLICATION_JSON).content(objectMapper.writeValueAsString(appointmentWithoutId)))
                 .andExpect(status().isBadRequest());
@@ -152,9 +156,9 @@ class AppointmentControllerTest {
                 .andExpect(jsonPath("$.id", is("c700f297-5db1-4a03-a4f0-e9e174510696")))
                 .andExpect(jsonPath("$.start", is("2023-01-01 14:00:00")))
                 .andExpect(jsonPath("$.end", is("2023-01-01 15:00:00")))
-                .andExpect(jsonPath("$.roomId", is(123)))
+                .andExpect(jsonPath("$.room.building.name", is("Building One")))
                 .andExpect(jsonPath("$.price", is(30.00)))
-                .andExpect(jsonPath("$.specialistId", is("d6326e2f-067f-4d61-b6d0-14e9278172f8")));
+                .andExpect(jsonPath("$.specialist.speciality.name", is("Family doctor")));
 
         verify(service, times(1)).updateAppointment(any(), any());
     }
@@ -209,8 +213,25 @@ class AppointmentControllerTest {
         return Appointment.builder().id(UUID.fromString("c700f297-5db1-4a03-a4f0-e9e174510696"))
                 .start("2023-01-01 14:00:00")
                 .end("2023-01-01 15:00:00")
-                .specialistId(UUID.fromString("d6326e2f-067f-4d61-b6d0-14e9278172f8"))
-                .roomId(123)
+                .specialist(Specialist.builder()
+                        .id(UUID.fromString("5d8bc9bc-bbb9-48f1-8616-258059bf71ec"))
+                        .userId(UUID.fromString("1e5cf2f4-110f-4d59-9af5-0974afcd3b26"))
+                        .speciality(Speciality.builder()
+                                .id(1)
+                                .name("Family doctor")
+                                .build())
+                        .build())
+                .room(Room.builder()
+                        .id(1)
+                        .name("Exam Room 1")
+                        .building(Building.builder()
+                                .id(1)
+                                .name("Building One")
+                                .address("Broad st. 3")
+                                .city("Vilnius")
+                                .postCode("000123")
+                                .build())
+                        .build())
                 .price(15.00)
                 .build();
     }
